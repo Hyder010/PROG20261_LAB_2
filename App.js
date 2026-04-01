@@ -1,23 +1,6 @@
 import { StyleSheet, Text, View, SectionList, TouchableOpacity, Alert } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>BLANK</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-// Contacts Data
+//  -- Contacts Data --
 const CONTACTS = [
   { id: '1',  name: 'Alice Martin',     phone: '(416) 555-0101', city: 'Toronto'     },
   { id: '2',  name: 'Aisha Mohammed',   phone: '(905) 555-0167', city: 'Oakville'    },
@@ -32,3 +15,42 @@ const CONTACTS = [
   { id: '11', name: 'Julia Santos',     phone: '(905) 555-0142', city: 'Brampton'    },
   { id: '12', name: 'Marcus Williams',  phone: '(647) 555-0398', city: 'Etobicoke'   },
 ];
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <View style = {styles.appHeader}>
+        <Text style = {styles.appTitle}>Contacts</Text>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+function groupByLetter(contacts) {
+  const grouped = {};
+
+  contacts.forEach(contact => {
+    const letter = contact.name[0].toUpperCase();
+    if (!grouped[letter]) {
+      grouped[letter] = [];
+    }
+    grouped[letter].push(contact);
+  });
+
+  // Convert object to the SectionList format
+  return Object.keys(grouped)
+    .sort()
+    .map(letter => ({
+      title: letter,
+      data: grouped[letter],
+    }));
+}
