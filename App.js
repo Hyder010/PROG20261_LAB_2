@@ -1,3 +1,8 @@
+// ========================
+// PROG 20261: LAB 2
+// created by Hyder Ahmed
+// 991599026
+// ========================
 import { StyleSheet, Text, View, SectionList, TouchableOpacity, Alert } from 'react-native';
 
 //  -- Contacts Data --
