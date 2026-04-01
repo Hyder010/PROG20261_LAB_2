@@ -16,12 +16,43 @@ const CONTACTS = [
   { id: '12', name: 'Marcus Williams',  phone: '(647) 555-0398', city: 'Etobicoke'   },
 ];
 
+const sections = groupByLetter(CONTACTS);
+
 export default function App() {
   return (
     <View style={styles.container}>
-      <View style = {styles.appHeader}>
-        <Text style = {styles.appTitle}>Contacts</Text>
+      <View style={styles.appHeader}>
+        <Text style={styles.appTitle}>Contacts</Text>
       </View>
+
+      <SectionList
+        sections={sections}
+        keyExtractor={(item) => item.id}
+        stickySectionHeadersEnabled={true}
+        
+        renderSectionHeader={({ section: { title } }) => (
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>{title}</Text>
+          </View>
+        )}
+
+        // -- Contact Row --
+        renderItem={({ item }) => (
+          <TouchableOpacity 
+            style={styles.contactRow}
+            onPress={() => Alert.alert(item.name, `Phone: ${item.phone}`)}
+          >
+            <View style={styles.avatarCircle}>
+              <Text style={styles.avatarInitial}>{item.name[0]}</Text>
+            </View>
+
+            <View>
+              <Text style={styles.contactName}>{item.name}</Text>
+              <Text style={styles.contactCity}>{item.city}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 }
@@ -29,9 +60,56 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
+    paddingTop: 40,
+  },
+  appHeader: {
+    backgroundColor: '#203354',
+    padding: 20,
+  },
+  appTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  sectionHeader: {
+    backgroundColor: '#ECECEC',
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+  },
+  sectionTitle: {
+    fontWeight: 'bold',
+    color: '#64748b',
+  },
+  contactRow: {
+    flexDirection: 'row',
+    padding: 15,
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f5f9',
+  },
+  avatarCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#0ea5e9',
     justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  avatarInitial: {
+    color: 'white',
+    fontWeight: '800',
+    fontSize: 16,
+  },
+  contactName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1e293b',
+  },
+  contactCity: {
+    fontSize: 14,
+    color: '#64748b',
   },
 });
 
