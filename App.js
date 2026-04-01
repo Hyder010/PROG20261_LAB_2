@@ -18,6 +18,28 @@ const CONTACTS = [
 
 const sections = groupByLetter(CONTACTS);
 
+// -- Grouping Function -- (via Week 10 content on Slate)
+function groupByLetter(contacts) {
+  const grouped = {};
+
+  contacts.forEach(contact => {
+    const letter = contact.name[0].toUpperCase();
+    if (!grouped[letter]) {
+      grouped[letter] = [];
+    }
+    grouped[letter].push(contact);
+  });
+
+  // Convert object to the SectionList format
+  return Object.keys(grouped)
+    .sort()
+    .map(letter => ({
+      title: letter,
+      data: grouped[letter],
+    }));
+}
+
+// -- Main App --
 export default function App() {
   return (
     <View style={styles.container}>
@@ -92,14 +114,14 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#0ea5e9',
+    backgroundColor: 'orange',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 15,
   },
   avatarInitial: {
     color: 'white',
-    fontWeight: '800',
+    fontWeight: '700',
     fontSize: 16,
   },
   contactName: {
@@ -112,23 +134,3 @@ const styles = StyleSheet.create({
     color: '#64748b',
   },
 });
-
-function groupByLetter(contacts) {
-  const grouped = {};
-
-  contacts.forEach(contact => {
-    const letter = contact.name[0].toUpperCase();
-    if (!grouped[letter]) {
-      grouped[letter] = [];
-    }
-    grouped[letter].push(contact);
-  });
-
-  // Convert object to the SectionList format
-  return Object.keys(grouped)
-    .sort()
-    .map(letter => ({
-      title: letter,
-      data: grouped[letter],
-    }));
-}
